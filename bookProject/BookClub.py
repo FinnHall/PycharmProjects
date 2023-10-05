@@ -1,13 +1,12 @@
 from unittest import TestCase
 
-
 def load_booklist():
-    list = []
+    book_list = []
     with open('booklist.txt', 'r') as booklist_file:
         row = booklist_file.read().splitlines()
     for i in row:
-        list.append(tuple(i.split(',')))
-    return list
+        book_list.append(tuple(i.split(',')))
+    return book_list
 
 
 def ReadersRatingsDictionary():
@@ -15,8 +14,8 @@ def ReadersRatingsDictionary():
         data = ratings_file.read().splitlines()
         names = data[::2]
         ratings = [list(map(int, ratings.split())) for ratings in data[1::2]]
-        Dict = dict(list(zip(names, ratings)))
-        return Dict
+        rating_dict = dict(list(zip(names, ratings)))
+        return rating_dict
 
 
 def correlationIndex(a, b):
@@ -26,27 +25,41 @@ def correlationIndex(a, b):
     return c
 
 
-def calculate(name, Dict, correlation):
-    final = {}
-    person = Dict[name]
-    Dict.pop(name)
-    for i in Dict.keys():
-        result = correlation(person, (Dict[i]))
-        final[i] = result
-        return final
+def calculate(name, rating_dict, correlation):
+    score = {}
+    person = rating_dict[name]
+    rating_dict.pop(name)
+    for i in rating_dict.keys():
+        result = correlation(person, (rating_dict[i]))
+        score[i] = result
+    return score
 
 
-def final_two(final):
-    sort = (sorted(final, key=lambda x: x[1], reverse=True))
+def final_two(score):
+    sort = (sorted(score, key=lambda x: x[1], reverse=True))
     two = ([i[0] for i in sort[:2:]])
     return two
 
 
-# def reco_Books(reader, similar_readers, Dict, list):
-#
-#     for i in range(len(list)):
-#         if main_user_rating[i]
-#
-#     pass
 
 
+def reco_books(reader, two, rating_dict, book_list):
+    reco_list = []
+    reader1 = rating_dict[reader]
+    reader2 = rating_dict[two[0]]
+    reader3 = rating_dict[two[1]]
+    for i in range(len(book_list)):
+        if reader1[i] == 0 and (reader2[i] >= 3 or reader3[i] >= 3):
+            reco_list.append(book_list[i])
+    return reco_list
+
+
+#reco_books('Moose', ('Mike', 'Ella'), ReadersRatingsDictionary(), load_booklist())
+
+
+
+# reco_books(input('Member Name: '))
+            #add book at i to the recommended list
+
+#print(final_two(calculate('Leah', ReadersRatingsDictionary(), correlationIndex).items()))
+#print(reco_books('Leah', ['Iren', 'hidan'], ReadersRatingsDictionary(), load_booklist()
