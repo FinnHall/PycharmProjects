@@ -1,6 +1,7 @@
 from unittest import TestCase
 from correlation import dot_product
 
+
 class TestDotProduct(TestCase):
     def test_dot_product1(self):
         a = [1, 2, 3]
