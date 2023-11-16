@@ -9,7 +9,7 @@ class TestClub(TestCase):
                    Member('Dude', 'Dude Avenue', '555-7868'),
                    Member('Person', 'Person Blv', '555-1111'),
                    Member('Pedestrian', 'Pedestrian Road', '555-9283'),
-                   Member('Other Guy', 'Other Guy street', '555-3453'), ]
+                   Member('Other Guy', 'Other Guy street', '555-3453')]
         self.people = Club('People Club', members)
 
     def setUp1(self):
@@ -17,7 +17,7 @@ class TestClub(TestCase):
                    Member('Tilda', 'Lily Road', '555-7567'),
                    Member('Lenny', '3424 S Hello Dr', '555-2374'),
                    Member('Bob', 'Some Road', '555-9425'),
-                   Member('Mick', 'The Best St.', '555-2342'),]
+                   Member('Mick', 'The Best St.', '555-2342')]
         self.norms = Club('norms Club', members)
 
     def test_list_members(self):
