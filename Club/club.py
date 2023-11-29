@@ -1,5 +1,8 @@
 from member import Member
 import csv
+import os
+import tkinter as tk
+from tkinter import ttk
 
 
 class Club:
@@ -88,3 +91,92 @@ class Roll:
     def list_member_attendance(self):
         return list(self.attendance.items())
 
+
+class App(tk.Tk):
+    pass
+
+
+class Terminal:
+    def __init__(self):
+        self.club = Club.from_file('People', 'members.csv')
+        self.command_list = ['1) List all members',
+                             '2) Add a member',
+                             '3) Remove a member',
+                             "4) Update a member's name",
+                             "5) Update a member's address",
+                             "6) Update a member's phone number",
+                             '7) Members attendance on specific date',
+                             '8) Date attendance',
+                             '9) Date absent members',
+                             '0) Date present members',
+                             'Q) Quit',
+                             'B) Back']
+        self.main()
+
+    def main(self):
+        os.system('cls')
+        for i in range(10):
+            print(self.command_list[i])
+        command = input('\nCommand: ')
+        match command.lower():
+            case '1':
+                self.list_all_members()
+            case '2':
+                self.add_member()
+            case '3':
+                self.remove_member()
+            case '4':
+                self.update_member_name()
+            case '5':
+                self.update_member_address()
+            case '6':
+                self.update_member_number()
+            case '7':
+                self.member_attendance_date()
+            case '8':
+                self.update_member_number()
+            case '9':
+                self.add_member()
+            case '0':
+                self.add_member()
+            case 'q':
+                self.add_member()
+            case _:
+                self.main()
+
+    @staticmethod
+    def display(function):
+        os.system('cls')
+        print()
+        pass
+
+    def list_all_members(self):
+        os.system('cls')
+        print(self.club.list_members())
+        for i in self.command_list[-2]:
+            print(i)
+        input('\nCommand: ')
+
+    def add_member(self):
+        pass
+
+    def remove_member(self):
+        pass
+
+    def update_member_name(self):
+        pass
+
+    def update_member_address(self):
+        pass
+
+    def update_member_number(self):
+        pass
+
+    def member_attendance_date(self):
+        pass
+
+    def update_member_number(self):
+        pass
+
+if __name__ == '__main__':
+    Terminal()
