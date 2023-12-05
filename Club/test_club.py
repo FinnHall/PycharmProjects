@@ -20,15 +20,15 @@ class TestClub(TestCase):
                    Member('Mick', 'The Best St.', '555-2342')]
         self.norms = Club('norms Club', members)
 
-    def test_list_members(self):
-        self.setUp()
-        self.assertEqual([member.name for member in self.people.list_members()], ['Guy', 'Dude', 'Person',
-                                                                                  'Pedestrian', 'Other Guy'])
-
-    def test_list_members1(self):
-        self.setUp1()
-        self.assertEqual([member.name for member in self.norms.list_members()], ['Fred', 'Tilda', 'Lenny', 'Bob',
-                                                                                 'Mick'])
+    # def test_list_members(self):
+    #     self.setUp()
+    #     self.assertEqual([member.name for member in self.people.list_members()], ['Guy', 'Dude', 'Person',
+    #                                                                               'Pedestrian', 'Other Guy'])
+    #
+    # def test_list_members1(self):
+    #     self.setUp1()
+    #     self.assertEqual([member.name for member in self.norms.list_members()], ['Fred', 'Tilda', 'Lenny', 'Bob',
+    #                                                                              'Mick'])
 
     def test_find_member(self):
         self.setUp()

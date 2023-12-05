@@ -11,8 +11,22 @@ class Club:
         self.members = members
         self.filename = filename
 
+        self.command_list = ['1) List all members',
+                             '2) Add a member',
+                             '3) Remove a member',
+                             "4) Update a member's name",
+                             "5) Update a member's address",
+                             "6) Update a member's phone number",
+                             '7) Members attendance on specific date',
+                             '8) Date attendance',
+                             '9) Date absent members',
+                             '0) Date present members',
+                             'Q) Quit',
+                             'B) Back']
+        self.main()
+
     def list_members(self):
-        return self.members
+        return [member.name for member in self.members]
 
     def find_member(self, name):
         for i in self.members:
@@ -60,9 +74,145 @@ class Club:
     @staticmethod
     def write_members(filename, members):
         with open(filename, 'w') as file:
-            writer = csv.writer(file)
+            writer = csv.writer(file, lineterminator='\n')
             for member in members:
-                writer.writerows([member.name, member.address, member.phone_number])
+                writer.writerows([[member.name, member.address, member.phone_number]])
+
+    def main(self):
+        os.system('cls')
+        for i in range(11):
+            print(self.command_list[i])
+        command = input('\nCommand: ')
+        match command.lower():
+            case '1':
+                self.ui_list_all_members()
+            case '2':
+                self.ui_add_member()
+            case '3':
+                self.ui_remove_member()
+            case '4':
+                self.ui_update_member_name()
+            case '5':
+                self.ui_update_member_address()
+            case '6':
+                self.ui_update_member_number()
+            case '7':
+                self.ui_member_attendance_date()
+            case '8':
+                self.ui_update_member_number()
+            case '9':
+                self.ui_add_member()
+            case '0':
+                self.ui_add_member()
+            case 'q':
+                quit()
+            case _:
+                self.main()
+
+    def display(self):
+        os.system('cls')
+        print(f'{self.list_members()} \n')
+        for i in range(2):
+            print(self.command_list[-1 - i])
+
+    def ui_list_all_members(self):
+        self.display()
+        command = input('\nCommand: ')
+        match command.lower():
+            case 'b':
+                self.main()
+            case 'q':
+                quit()
+
+    def ui_add_member(self):
+        self.display()
+        member_name = input('\nAdd Member Name: ')
+        match member_name.lower():
+            case 'b':
+                self.main()
+            case 'q':
+                quit()
+        member_number = input('Add Member Number: ')
+        match member_number.lower():
+            case 'b':
+                self.main()
+            case 'q':
+                quit()
+        member_address = input('Add Member Address: ')
+        match member_address.lower():
+            case 'b':
+                self.main()
+            case 'q':
+                quit()
+        self.add_member(member_name, member_number, member_address)
+        self.ui_add_member()
+
+    def ui_remove_member(self):
+        self.display()
+        member_name = input('\nRemove Member Name: ')
+        match member_name.lower():
+            case 'b':
+                self.main()
+            case 'q':
+                quit()
+        self.remove_member(member_name)
+        self.ui_remove_member()
+
+    def ui_update_member_name(self):
+        self.display()
+        member_name = input('\nUpdate Member Name: ')
+        match member_name.lower():
+            case 'b':
+                self.main()
+            case 'q':
+                quit()
+        member_new_name = input('Member New Name: ')
+        match member_name.lower():
+            case 'b':
+                self.main()
+            case 'q':
+                quit()
+        self.update_member_name(member_name, member_new_name)
+        self.ui_update_member_name()
+
+    def ui_update_member_address(self):
+        self.display()
+        member_name = input('\nMember Name: ')
+        match member_name.lower():
+            case 'b':
+                self.main()
+            case 'q':
+                quit()
+        member_new_address = input('Update Member Address: ')
+        match member_name.lower():
+            case 'b':
+                self.main()
+            case 'q':
+                quit()
+        self.update_member_address(member_name, member_new_address)
+        self.ui_update_member_address()
+
+    def ui_update_member_number(self):
+        self.display()
+        member_name = input('\nMember Name: ')
+        match member_name.lower():
+            case 'b':
+                self.main()
+            case 'q':
+                quit()
+        member_new_number = input('Update Member Number: ')
+        match member_name.lower():
+            case 'b':
+                self.main()
+            case 'q':
+                quit()
+        self.update_member_phone_number(member_name, member_new_number)
+        self.ui_update_member_address()
+
+    def ui_member_attendance_date(self):
+        date = input('Date: ')
+        self.try_create_roll(date)
+        for name, present in self.
 
 
 class Roll:
@@ -96,87 +246,5 @@ class App(tk.Tk):
     pass
 
 
-class Terminal:
-    def __init__(self):
-        self.club = Club.from_file('People', 'members.csv')
-        self.command_list = ['1) List all members',
-                             '2) Add a member',
-                             '3) Remove a member',
-                             "4) Update a member's name",
-                             "5) Update a member's address",
-                             "6) Update a member's phone number",
-                             '7) Members attendance on specific date',
-                             '8) Date attendance',
-                             '9) Date absent members',
-                             '0) Date present members',
-                             'Q) Quit',
-                             'B) Back']
-        self.main()
-
-    def main(self):
-        os.system('cls')
-        for i in range(10):
-            print(self.command_list[i])
-        command = input('\nCommand: ')
-        match command.lower():
-            case '1':
-                self.list_all_members()
-            case '2':
-                self.add_member()
-            case '3':
-                self.remove_member()
-            case '4':
-                self.update_member_name()
-            case '5':
-                self.update_member_address()
-            case '6':
-                self.update_member_number()
-            case '7':
-                self.member_attendance_date()
-            case '8':
-                self.update_member_number()
-            case '9':
-                self.add_member()
-            case '0':
-                self.add_member()
-            case 'q':
-                self.add_member()
-            case _:
-                self.main()
-
-    @staticmethod
-    def display(function):
-        os.system('cls')
-        print()
-        pass
-
-    def list_all_members(self):
-        os.system('cls')
-        print(self.club.list_members())
-        for i in self.command_list[-2]:
-            print(i)
-        input('\nCommand: ')
-
-    def add_member(self):
-        pass
-
-    def remove_member(self):
-        pass
-
-    def update_member_name(self):
-        pass
-
-    def update_member_address(self):
-        pass
-
-    def update_member_number(self):
-        pass
-
-    def member_attendance_date(self):
-        pass
-
-    def update_member_number(self):
-        pass
-
 if __name__ == '__main__':
-    Terminal()
+    Club.from_file('people', 'members.csv')
