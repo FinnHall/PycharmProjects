@@ -11,6 +11,8 @@ class Club:
         self.members = members
         self.filename = filename
 
+        self.roll = {}
+
         self.command_list = ['1) List all members',
                              '2) Add a member',
                              '3) Remove a member',
@@ -78,6 +80,10 @@ class Club:
             for member in members:
                 writer.writerows([[member.name, member.address, member.phone_number]])
 
+    def create_roll(self, date):
+        if date not in self.roll.keys():
+            self.roll[date] = Roll(self.list_members(), date)
+
     def main(self):
         os.system('cls')
         for i in range(11):
@@ -99,11 +105,11 @@ class Club:
             case '7':
                 self.ui_member_attendance_date()
             case '8':
-                self.ui_update_member_number()
+                self.ui_attendance_date()
             case '9':
-                self.ui_add_member()
+                self.ui_absent_date()
             case '0':
-                self.ui_add_member()
+                self.ui_present_date()
             case 'q':
                 quit()
             case _:
@@ -210,9 +216,72 @@ class Club:
         self.ui_update_member_address()
 
     def ui_member_attendance_date(self):
-        date = input('Date: ')
-        self.try_create_roll(date)
-        for name, present in self.
+        self.display()
+        date = input('\nDate: ')
+        name = input('\nName: ')
+        presence = input('\nPresence: ')
+        self.create_roll(date)
+        self.roll[date].change_member_presence(name, presence)
+        command = input('\nCommand: ')
+        match command.lower():
+            case 'b':
+                self.main()
+            case 'q':
+                quit()
+
+    def ui_attendance_date(self):
+        os.system('cls')
+        print('')
+        for i in range(2):
+            print(self.command_list[-1 - i])
+        date = input('\nDate: ')
+        self.create_roll(date)
+        list_members = self.roll[date].list_member_attendance()
+        print('')
+        for i in list_members:
+            print(i)
+        command = input('\nCommand: ')
+        match command.lower():
+            case 'b':
+                self.main()
+            case 'q':
+                quit()
+
+    def ui_absent_date(self):
+        os.system('cls')
+        print('')
+        for i in range(2):
+            print(self.command_list[-1 - i])
+        date = input('\nDate: ')
+        self.create_roll(date)
+        list_absent_members = self.roll[date].list_absent()
+        print('')
+        for i in list_absent_members:
+            print(i)
+        command = input('\nCommand: ')
+        match command.lower():
+            case 'b':
+                self.main()
+            case 'q':
+                quit()
+
+    def ui_present_date(self):
+        os.system('cls')
+        print('')
+        for i in range(2):
+            print(self.command_list[-1 - i])
+        date = input('\nDate: ')
+        self.create_roll(date)
+        list_present_members = self.roll[date].list_present()
+        print('')
+        for i in list_present_members:
+            print(i)
+        command = input('\nCommand: ')
+        match command.lower():
+            case 'b':
+                self.main()
+            case 'q':
+                quit()
 
 
 class Roll:
@@ -220,22 +289,28 @@ class Roll:
         self.members_list = members_list
         self.date = current_date
         self.attendance = {}
+        for i in members_list:
+            self.attendance[i] = 'Absent'
 
-    def member_presence(self, member, presence):
+    def member_presence(self, member):
+        presence = self.attendance[member]
+        return presence
+
+    def change_member_presence(self, member, presence):
         self.attendance[member] = presence
 
     def list_present(self):
         present_list = []
-        for key in self.attendance.keys():
-            if self.attendance[key]:
-                present_list.append(key)
+        for member, present in self.attendance.items():
+            if present == 'Present':
+                present_list.append(member)
         return present_list
 
     def list_absent(self):
         absent_list = []
-        for key in self.attendance.keys():
-            if not self.attendance[key]:
-                absent_list.append(key)
+        for member, present in self.attendance.items():
+            if present == 'Absent':
+                absent_list.append(member)
         return absent_list
 
     def list_member_attendance(self):
